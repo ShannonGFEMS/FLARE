@@ -15,7 +15,7 @@ from sklearn.neighbors import KNeighborsClassifier
 
 plt.style.use('ggplot')
 
-# readData comes from dedup tutorial
+# readData comes from dedupe tutorial
 def readData(filename):
     """
     Read in data from a CSV file and create a dictionary of records,
@@ -103,7 +103,7 @@ files_to_import = [
 companies = pd.concat([load_data(*import_file) for import_file in files_to_import])
 
 
-#Clean up the strings, put them in upper case, remove punctuation from names, remove low-info parts of strings
+#Clean up the strings, put them in upper case (except emails), remove punctuation from names, remove low-info parts of strings
 upper_columns = ['company_name', 'address', 'Consignee']
 for upper_column in upper_columns:
     companies[upper_column] = companies[upper_column].str.upper()
@@ -126,13 +126,13 @@ for replace_column in replace_columns:
 # save interim state to file for future reference
 companies.to_csv("alldata.csv")
 
-
+#The settings and training files will be retained once they have been run once, if you want to make changes to the entity model, you must delete them
 input_file = "alldata.csv"
 output_file = 'canonical_businesses.csv'
 settings_file = 'business_dedupe_learned_settings_new'
 training_file = 'csv_dedupe_training_new.json'
 
-# the following code is based on the dedup tutorial
+# the following code is based on the dedupe tutorial
 
 print('importing data ...')
 data_d = readData(input_file)
@@ -206,7 +206,7 @@ companies.to_csv("clustereddata.csv")
 # cluster_to_address = clusterMerge(companies, 'cluster', 'address')
 # name_to_cluster = clusterMerge(companies,'company_name','cluster')
 # address_to_cluster = clusterMerge(companies, 'address', 'cluster')
-# #I think lines related to email need to be added here
+# I took this out, but I'm not sure about that decision.
 
 # One useful characteristic is how many trade partners an entity has
 tradePartners = {}
@@ -301,7 +301,7 @@ for i,row in have_address.iterrows():
         data_add_geo.loc[i, "lat"] = lat
         data_add_geo.loc[i, "lng"] = lon
 
-
+#Note: at one point I had implemented a K-means clustering algorithm here to try to capture city-level clusters in lat/lng pairs, but it performed worse than using the two features independently.
 
 training_frame = data_add_geo.dropna(subset=['company_name','address','authorised_capital','paid_up_capital','trade_partner_count','labels','lat','lng'])
 
@@ -336,13 +336,14 @@ X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)  
 
 #Import the classifier
+#I have tested KNN, Random Forest, and sklearn's Multi-Layer Perceptron, and in general I get better results with the RF.
 
 classifier = KNeighborsClassifier(n_neighbors=1, weights = 'distance')  
 classifier.fit(X_train, y_train)
 
 #pickle the model
-#import pickle
-#pickle.dump((classifier, scaler), open('rfendstate.p','wb'))
+import pickle
+pickle.dump((classifier, scaler), open('rfendstate.p','wb'))
 
 #Make the prediction
 y_pred = classifier.predict(X_test)  
