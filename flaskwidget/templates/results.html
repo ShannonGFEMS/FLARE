@@ -1,0 +1,26 @@
+<head> <meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+<title>GFEMS Slavery Risk Predictor</title> </head> 
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Libre+Franklin:400,800&display=swap');
+    body {
+      font-family: 'Libre Franklin', sans-serif;
+      text-align:center;
+      background-color: lightgray;
+    }
+    h1 {
+      color: blueviolet;
+      text-align: center;
+    }
+    h2 {
+      text-align: center;
+    }
+    </style>
+<body> 
+  <br>
+  <h1>Global Fund to End Modern Slavery</h1>
+  <h2>Draft Decision Support Tool for Supply Chain Risk Screening</h2>
+  <form method="POST" action={% if use_form == "formKNN" %}"{{ url_for('formKNN') }}"{% else %} "{{ url_for('formRF') }}" {% endif %}>
+    {{ form.outcome }}
+<br>
+</body>
+</html> 

@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> <html lang="en"> 
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Libre+Franklin:400,800&display=swap');
+        body {
+          font-family: 'Libre Franklin', sans-serif;
+          text-align:center;
+          background-color: lightgray;
+        }
+        h1 {
+            color: blueviolet;
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+        }
+        form {
+            font-family: 'Libre Franklin', sans-serif;
+            text-align: left
+            text-indent: 4cm;
+        }
+        </style>
+
+<head> <meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+<br>
+<br>
+<title>GFEMS Slavery Risk Predictor</title> </head> 
+<body> 
+    <h1>Global Fund to End Modern Slavery</h1>
+    <h2>Draft Decision Support Tool for Supply Chain Risk Screening</h2>
+     
+<br>
+<br>
+<form method="POST" action={% if use_form == "formKNN" %}"{{ url_for('formKNN') }}"{% else %} "{{ url_for('formRF') }}" {% endif %}>
+    {{ form.csrf_token }}
+    {{ form.lat.label }}
+    {{ form.lat }}
+    <ul>
+        {% for error in form.lat.errors%}
+            <li style="color:red;">{{ error }}</li>
+        {% endfor %}
+    </ul>
+
+    {{ form.lng.label }}
+    {{ form.lng }}
+    <ul>
+        {% for error in form.lng.errors%}
+            <li style="color:red;">{{ error }}</li>
+        {% endfor %}
+    </ul>
+
+    {{ form.authorised_capital.label }}
+    {{ form.authorised_capital }}
+    <ul>
+        {% for error in form.authorised_capital.errors%}
+            <li style="color:red;">{{ error }}</li>
+        {% endfor %}
+    </ul>
+
+    {{ form.paid_up_capital.label }}
+    {{ form.paid_up_capital }}
+    <ul>
+        {% for error in form.paid_up_capital.errors%}
+            <li style="color:red;">{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {{ form.trade_partner_count.label }}
+    {{ form.trade_partner_count }}
+    <ul>
+        {% for error in form.trade_partner_count.errors%}
+            <li style="color:red;">{{ error }}</li>
+        {% endfor %}
+    </ul>
+    <input type="submit" value="Submit">
+</form>
+{% if message %}
+<h3>{{ message }}</h3>
+{% endif %}
+
+
+</body>
+</html> 

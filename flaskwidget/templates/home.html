@@ -1,0 +1,31 @@
+<html>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Libre+Franklin:400,800&display=swap');
+    h1{
+      color: blueviolet;
+      text-align: center;
+    }
+    h2 {
+      text-align: center;
+    }
+    
+    body {
+      font-family: 'Libre Franklin', sans-serif; 
+      text-align:left;
+      text-indent: 4cm;
+      background-color: lightgray;
+    }
+    </style>
+  <body>
+    <br>
+    <h1>Global Fund to End Modern Slavery</h1>
+    <h2>Draft Decision Support Tool for Supply Chain Risk Screening</h2>
+    <p>Choose your model algorithm from the options in the dropdown menu:</p>
+    <br>
+    <form method="POST" action="{{ url_for('view_method') }}">
+      {{ form.csrf_token }}
+      {{form.choice.label}}{{form.choice}}
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>
