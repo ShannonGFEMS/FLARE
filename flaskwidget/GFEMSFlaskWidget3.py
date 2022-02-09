@@ -86,9 +86,9 @@ def formRF():
         inputdata = np.array([[aform.lat.data, aform.lng.data, aform.authorised_capital.data, aform.paid_up_capital.data, aform.trade_partner_count.data]])
         inputdata = scaler.transform(inputdata)
         prediction = classifier.predict(inputdata)
-        if prediction == '0':
+        if prediction == 0:
             prediction = "low risk"
-        if prediction == '1':
+        if prediction == 1:
             prediction = "high risk"
 
         message = f'The form has been submitted. You input geo coordinates {aform.lat.data}, {aform.lng.data}, authorized capital {aform.authorised_capital.data}, paid up capital {aform.paid_up_capital.data}, and {aform.trade_partner_count.data} international trade partners. The model predicted that this business is {prediction}.'
